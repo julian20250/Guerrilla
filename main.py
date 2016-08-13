@@ -1,8 +1,8 @@
-import unidad
 from numpy.random import randint
 
-unidad=unidad.unidad
-unidades=[]
-for x in xrange(100):
-    unidades.append(unidad(randint(1, 11)))
-print [x.fuerza for x in unidades]
+unidades=[1]*100 #Number of Units
+gamma=0.01 #Define the probability
+for x in xrange(1000): #Time
+    top=max(unidades)
+    bottom=min(unidades)
+    probability=[]
