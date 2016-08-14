@@ -9,18 +9,21 @@ def contar(lista, number):
             count+=1
     return count
 
-unidades=[1]*10000 #Force of Units
+fig=plt.figure()
+fig.canvas.draw()
+total=10000 #Total Units
+unidades=[1]*total #Creating (total) units with force 1
 gamma=0.01 #Define the probability
 booleans=[True, False]
-for x in xrange(10001): #Time
-    sys.stdout.write("\r{0}".format(str(x)))
+time = 100001 #Time
+for x in xrange(time): 
+    sys.stdout.write("\r{0}".format("Passed %i of %i time units"%(x,time)))
     sys.stdout.flush()
-    top=max(unidades)
-    if x%5==0:
-        for y in xrange(1, top+1):
-            repeticiones=contar(unidades,y)
-            if repeticiones!=0:
-                plt.loglog(repeticiones, y, "ro")
+    #top=max(unidades)
+    #if x%2==0:
+        #for y in xrange(1, top+1):
+         #   repeticiones=contar(unidades,y)
+          #  plt.loglog(repeticiones, y, "ro")
     suma=sum(unidades)
     probability=[1.*y/suma for y in unidades]
     selection=choice(unidades,1,p= probability)[0]
@@ -29,10 +32,13 @@ for x in xrange(10001): #Time
         unidades.remove(selection)
     if (boolean):
         unidades+=[1]*selection
-    elif ((not boolean) and selection!=100):
+    elif ((not boolean) and selection!=total):
         probability2=[1.*y/(suma-selection) for y in unidades]
         selection2=choice(unidades, 1, p=probability2)[0]
         unidades.remove(selection2)
         unidades+=[selection+selection2]
-        
+
+for x in xrange(1, max(unidades)+1):
+    repeticiones=contar(unidades,x)
+    plt.loglog(repeticiones,x,"ro")
 plt.show()
