@@ -15,9 +15,9 @@ total=10000 #Total Units
 unidades=[1]*total #Creating (total) units with force 1
 gamma=0.01 #Define the probability
 booleans=[True, False]
-time = 100001 #Time
+time = input("Digit time > ") #Time
 for x in xrange(time): 
-    sys.stdout.write("\r{0}".format("Passed %i of %i time units"%(x,time)))
+    sys.stdout.write("\r{0}".format("Passed %i of %i time units"%(x+1,time)))
     sys.stdout.flush()
     #top=max(unidades)
     #if x%2==0:
@@ -40,5 +40,6 @@ for x in xrange(time):
 
 for x in xrange(1, max(unidades)+1):
     repeticiones=contar(unidades,x)
-    plt.loglog(repeticiones,x,"ro")
+    if repeticiones!=0:
+        plt.loglog(repeticiones,x,"ro")
 plt.show()
