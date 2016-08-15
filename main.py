@@ -1,4 +1,7 @@
 from numpy.random import randint, choice
+import matplotlib
+import matplotlib.style
+matplotlib.style.use('classic')
 import matplotlib.pyplot as plt
 import sys
 
@@ -9,21 +12,16 @@ def contar(lista, number):
             count+=1
     return count
 
-fig=plt.figure()
-fig.canvas.draw()
+
 total=10000 #Total Units
 unidades=[1]*total #Creating (total) units with force 1
 gamma=0.01 #Define the probability
 booleans=[True, False]
 time = input("Digit time > ") #Time
-for x in xrange(time): 
-    sys.stdout.write("\r{0}".format("Passed %i of %i time units"%(x+1,time)))
+print("When you wish to stop, use ctrl-c; all changes are saved.")
+for x in range(int(time)): 
+    sys.stdout.write("\r{0}".format("Passed %i of %s time units"%(x+1,time)))
     sys.stdout.flush()
-    #top=max(unidades)
-    #if x%2==0:
-        #for y in xrange(1, top+1):
-         #   repeticiones=contar(unidades,y)
-          #  plt.loglog(repeticiones, y, "ro")
     suma=sum(unidades)
     probability=[1.*y/suma for y in unidades]
     selection=choice(unidades,1,p= probability)[0]
@@ -38,7 +36,7 @@ for x in xrange(time):
         unidades.remove(selection2)
         unidades+=[selection+selection2]
 
-for x in xrange(1, max(unidades)+1):
+for x in range(1, max(unidades)+1):
     repeticiones=contar(unidades,x)
     if repeticiones!=0:
         plt.loglog(repeticiones,x,"ro")
