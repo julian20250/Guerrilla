@@ -1,6 +1,7 @@
 from numpy.random import randint, choice
 import matplotlib
 import matplotlib.style
+import numpy as np
 matplotlib.style.use('classic')
 import matplotlib.pyplot as plt
 import sys
@@ -58,12 +59,22 @@ while (x<int(time2)):
     except KeyboardInterrupt:
         break
    
+if sum(unidades)!=total:
+    raise Warning("The ending force doesn't not coincide")
 f= open("datos.txt", "w")
 for x in unidades:
     f.write(str(x)+"\n")
 f.close()
+l1=[]
+l2=[]
 for x in range(1, max(unidades)+1):
     repeticiones=contar(unidades,x)
     if repeticiones!=0:
-        plt.loglog(repeticiones,x,"ro")
+        plt.loglog(x,repeticiones,"ro")
+        l1.append(np.log(x))
+        l2.append(np.log(repeticiones))
+z=np.polyfit(l1,l2,1)
+plt.plot([np.e**x for x in l1],[np.e**z[1]*(np.e**x)**z[0] for x in l1])
+print("\nThe slope is %f"%z[0])
+
 plt.show()
