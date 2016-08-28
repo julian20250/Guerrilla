@@ -17,14 +17,22 @@ def contar(lista, number):
 total=10000 #Total Units
 condition= input("Read datos.txt? (y/n) > ")
 
+
 if condition=="y":
     f=open("datos.txt", "r")
+    f2=open("slope.txt", "r")
+    slopes=f2.readlines()
+    slopes=[float(x) for x in slopes]
     unidades=f.readlines()
     unidades=[int(x) for x in unidades]
 
-else:
+elif condition=="n":
     unidades=[1]*total #Creating (total) units with force 1
-    
+    slopes=[]
+
+else:
+    print("Not a valid option")
+    sys.exit()
 gamma=0.01 #Define the probability
 booleans=[True, False]
 time = input("Digit time > ") #Time
@@ -56,15 +64,29 @@ while (x<int(time2)):
             x-=1
         x+=1
         counter+=1
+        l1=[]
+        l2=[]
+        if x%1000==0:
+            for y in range(1,max(unidades)+1):
+                repeticiones=contar(unidades,y)
+                if repeticiones!=0:
+                    l1.append(np.log(y))
+                    l2.append(np.log(repeticiones))
+            z=np.polyfit(l1,l2,1)
+            slopes.append(z[0])
     except KeyboardInterrupt:
         break
    
 if sum(unidades)!=total:
     raise Warning("The ending force doesn't not coincide")
 f= open("datos.txt", "w")
+f2= open("slope.txt", "w")
 for x in unidades:
     f.write(str(x)+"\n")
+for x in slopes:
+    f2.write(str(x)+"\n")
 f.close()
+f2.close()
 l1=[]
 l2=[]
 for x in range(1, max(unidades)+1):
